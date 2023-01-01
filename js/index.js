@@ -1,10 +1,15 @@
 const monsterURL = 'http://localhost:3000/monsters'
-
 document.addEventListener('DOMContentLoaded', () => {
   const monsterCont = document.querySelector('#monster-container')
   const formContainer = document.querySelector('#create-monster')
+  const backBtn = document.querySelector('#back')
+  const forwardBtn = document.querySelector('#forward')
+  // console.log(backBtn, forwardBtn)
+  let page = 1
+
   function fetchMonsters() {
-    fetch(`${monsterURL}/?_limit=50&_page=1`)
+    monsterCont.innerHTML = ''
+    fetch(`${monsterURL}/?_limit=50&_page=${page}`)
       .then(res => res.json())
       .then(monsters => {
         //create monster div
@@ -75,6 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error(err.message))
   }
 // At the end of the list of monsters, show a button. When clicked, the button should load the next 50 monsters and show them.
+// backBtn.addEventListener('click' , () => {})
+forwardBtn.addEventListener('click' , () => {
+  page++
+  return fetchMonsters()
+})
+
 createMonsterForm()
 fetchMonsters()
 })
